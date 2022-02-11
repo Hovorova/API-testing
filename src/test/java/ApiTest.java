@@ -50,7 +50,7 @@ public class ApiTest {
                 .then().log()
                 .all();
 
-        given().when().get(URL).then().assertThat().statusCode(200);
+        assertThat(Specification.responseSpecification(200));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ApiTest {
                 .job("leader")
                 .build();
 
-        CreateUserResponse response = (CreateUserResponse) given()
+        CreateUserResponse response = given()
                 .spec(Specification.REQUEST_SPECIFICATION)
                 .body(request)
                 .when().post()
@@ -84,12 +84,13 @@ public class ApiTest {
 
     @Test
     public void deleteUserTest() {
-        Specification.responseSpecification(204);
         given()
                 .spec(Specification.REQUEST_SPECIFICATION)
                 .when().delete("/api/users/2")
                 .then()
                 .log().all();
+
+        assertThat(Specification.responseSpecification(204));
     }
 
     @Test
